@@ -55,37 +55,6 @@ export function FAQPage() {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  React.useEffect(() => {
-    const greeting = chatStrings.greeting;
-    setChatMessages(prev =>
-      prev.length === 1 && prev[0].role === 'assistant' ? [{ role: 'assistant', text: greeting }] : prev
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chatStrings.greeting]);
-
-  const handleSendMessage = async (text: string) => {
-    setChatMessages(prev => [...prev, { role: 'user', text }]);
-    setIsSending(true);
-    try {
-      const reply = await ask(text);
-      setChatMessages(prev => [
-        ...prev,
-        { role: 'assistant', text: reply || chatStrings.fallback },
-      ]);
-    } catch (error) {
-      console.error('Chat error', error);
-      setChatMessages(prev => [
-        ...prev,
-        {
-          role: 'assistant',
-          text: chatStrings.error,
-        },
-      ]);
-    } finally {
-      setIsSending(false);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gray-50 px-4 pt-24 pb-12">
       <div className="mx-auto max-w-4xl">
