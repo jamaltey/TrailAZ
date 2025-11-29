@@ -20,7 +20,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       setLanguageState(saved);
     }
 
-    const handler = (lng: string) => setLanguageState(lng as Language);
+    const handler = (lng: string) => {
+      setLanguageState(lng as Language);
+      localStorage.setItem('language', lng as Language);
+    };
     i18n.on('languageChanged', handler);
     return () => {
       i18n.off('languageChanged', handler);

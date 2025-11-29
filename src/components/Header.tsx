@@ -8,6 +8,7 @@ import {
 import { Globe, Menu, Mountain, Search, X } from 'lucide-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../contexts/AuthContext';
 
 interface HeaderProps {
   currentPage: string;
@@ -26,6 +27,7 @@ export function Header({
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [searchOpen, setSearchOpen] = React.useState(false);
   const { t, i18n } = useTranslation();
+  const { user } = useAuth();
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -42,6 +44,8 @@ export function Header({
     { id: 'planner', label: t('nav.planner') },
     { id: 'faq', label: t('nav.faq') },
   ];
+
+  const authLabel = t('nav.auth', { defaultValue: 'Log in' });
 
   const languages = [
     { code: 'en' as const, label: 'EN', name: 'English' },
@@ -96,6 +100,34 @@ export function Header({
 
           {/* Right Side Actions */}
           <div className="hidden items-center gap-3 lg:flex">
+            {!user ? (
+              <button
+                onClick={() => onNavigate('auth')}
+                className={`rounded-full px-4 py-2 text-sm font-semibold shadow-sm transition ${
+                  currentPage === 'auth'
+                    ? 'bg-teal-primary text-white shadow-md shadow-emerald-200/40'
+                    : !isScrolled && currentPage === 'home'
+                      ? 'bg-white/20 text-white hover:bg-white/30'
+                      : 'bg-teal-50 text-teal-700 hover:bg-teal-100'
+                }`}
+              >
+                {authLabel}
+              </button>
+            ) : (
+              <button
+                onClick={() => onNavigate('profile')}
+                className={`rounded-full px-4 py-2 text-sm font-semibold shadow-sm transition ${
+                  currentPage === 'profile'
+                    ? 'bg-teal-primary text-white shadow-md shadow-emerald-200/40'
+                    : !isScrolled && currentPage === 'home'
+                      ? 'bg-white/20 text-white hover:bg-white/30'
+                      : 'bg-teal-50 text-teal-700 hover:bg-teal-100'
+                }`}
+              >
+                {t('nav.profile', { defaultValue: 'Profile' })}
+              </button>
+            )}
+
             {/* Search Button */}
             <button
               onClick={() => setSearchOpen(!searchOpen)}
@@ -200,6 +232,30 @@ export function Header({
                 {item.label}
               </button>
             ))}
+
+            {!user ? (
+              <button
+                onClick={() => {
+                  onNavigate('auth');
+                  setMobileMenuOpen(false);
+                }}
+                className="bg-teal-primary hover:bg-teal-light mt-2 w-full rounded-lg px-4 py-3 text-white shadow transition-colors"
+                style={{ fontWeight: 600 }}
+              >
+                {authLabel}
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  onNavigate('profile');
+                  setMobileMenuOpen(false);
+                }}
+                className="bg-teal-primary hover:bg-teal-light mt-2 w-full rounded-lg px-4 py-3 text-white shadow transition-colors"
+                style={{ fontWeight: 600 }}
+              >
+                {t('nav.profile', { defaultValue: 'Profile' })}
+              </button>
+            )}
 
             <div className="mt-4 space-y-2 border-t border-gray-200 pt-4">
               <div className="px-4 py-2 text-sm text-gray-600">

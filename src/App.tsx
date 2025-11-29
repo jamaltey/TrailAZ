@@ -4,11 +4,12 @@ import { AccessibilityPanel } from './components/AccessibilityPanel';
 import { ChatAssistant } from './components/ChatAssistant';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
+import { AuthProvider } from './contexts/AuthContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import './index.css';
 import { AppRoutes } from './router';
 
-type Page = 'home' | 'mountains' | 'activities' | 'planner' | 'faq';
+type Page = 'home' | 'mountains' | 'activities' | 'planner' | 'faq' | 'auth' | 'profile';
 type TextSize = 'normal' | 'large' | 'xlarge';
 
 function AppContent() {
@@ -25,6 +26,8 @@ function AppContent() {
     '/activities': 'activities',
     '/planner': 'planner',
     '/faq': 'faq',
+    '/auth': 'auth',
+    '/profile': 'profile',
   };
 
   const pageToPath: Record<Page, string> = {
@@ -33,6 +36,8 @@ function AppContent() {
     activities: '/activities',
     planner: '/planner',
     faq: '/faq',
+    auth: '/auth',
+    profile: '/profile',
   };
 
   const currentPage = pathToPage[location.pathname as keyof typeof pathToPage] || 'home';
@@ -117,7 +122,9 @@ function AppContent() {
 export default function App() {
   return (
     <LanguageProvider>
-      <AppContent />
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
     </LanguageProvider>
   );
 }
