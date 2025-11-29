@@ -1,0 +1,785 @@
+export type Language = 'en' | 'ru' | 'az';
+
+export const translations: Record<Language, any> = {
+  en: {
+    nav: {
+      home: 'Home',
+      mountains: 'Mountains',
+      activities: 'Activities',
+      planner: 'Planner',
+      faq: 'FAQ',
+      language: 'Language',
+    },
+    hero: {
+      title: "Conquer Azerbaijan's Mountains",
+      subtitle: 'Plan your adventure, pick your dates, and explore safely',
+      planMyClimb: 'Plan My Climb',
+      exploreMountains: 'Explore Mountains',
+      accessibilityTools: 'Accessibility Tools',
+      trails: 'Trails',
+      peaks: 'Peaks',
+      guides: 'Guides',
+      seasonalTips: 'Seasonal Tips',
+    },
+    features: {
+      title: 'Why TrailAZ Mountains?',
+      subtitle:
+        "Experience the perfect blend of adventure, safety, and local expertise in Azerbaijan's most stunning mountain destinations.",
+      expertTrails: {
+        title: 'Expert Trail Mapping',
+        description:
+          'Professionally mapped routes with detailed topographic information and waypoints.',
+      },
+      aiRoutes: {
+        title: 'AI-Suggested Routes',
+        description:
+          'Smart recommendations based on your experience level, fitness, and preferences.',
+      },
+      safety: {
+        title: 'Safety-First Approach',
+        description:
+          'Real-time weather updates, emergency contacts, and safety guidelines for every trail.',
+      },
+      budget: {
+        title: 'Budget-Friendly Options',
+        description:
+          'Transparent pricing with packages for every budget, from basic to premium experiences.',
+      },
+      accessibility: {
+        title: 'Accessibility Features',
+        description:
+          'Inclusive design with tools for enhanced readability and navigation assistance.',
+      },
+      offline: {
+        title: 'Offline-Ready',
+        description: 'Download maps and guides for offline access in remote mountain locations.',
+      },
+    },
+    seasons: {
+      title: 'Plan by Season',
+      subtitle:
+        "Each season offers unique experiences and adventures in Azerbaijan's mountains. Choose your perfect time to explore.",
+      winter: {
+        name: 'Winter',
+        activities: ['Skiing', 'Snowboarding', 'Winter Hiking'],
+        budget: '$$$ - Premium',
+        difficulty: 'Moderate to Difficult',
+      },
+      spring: {
+        name: 'Spring',
+        activities: ['Wildflower Trails', 'Photography', 'Gentle Hiking'],
+        budget: '$$ - Moderate',
+        difficulty: 'Easy to Moderate',
+      },
+      summer: {
+        name: 'Summer',
+        activities: ['Peak Climbing', 'Camping', 'Multi-day Treks'],
+        budget: '$ - Budget Friendly',
+        difficulty: 'All Levels',
+      },
+      autumn: {
+        name: 'Autumn',
+        activities: ['Fall Foliage Tours', 'Scenic Hiking', 'Photography'],
+        budget: '$$ - Moderate',
+        difficulty: 'Easy to Moderate',
+      },
+    },
+    mountains: {
+      title: "Explore Azerbaijan's Mountains",
+      subtitle: 'Discover incredible mountain destinations across Azerbaijan',
+      searchPlaceholder: 'Search mountains, activities, regions...',
+      filters: 'Filters',
+      region: 'Region',
+      difficulty: 'Difficulty',
+      season: 'Season',
+      activityType: 'Activity Type',
+      all: 'All',
+      easy: 'Easy',
+      moderate: 'Moderate',
+      difficult: 'Difficult',
+      expert: 'Expert',
+      showing: 'Showing',
+      mountain: 'mountain',
+      mountains: 'mountains',
+      activeFilters: 'Active filters:',
+      clearAll: 'Clear All',
+      noMountainsFound: 'No mountains found',
+      tryAdjusting: 'Try adjusting your filters or search terms',
+      planThisClimb: 'Plan This Climb',
+    },
+    activities: {
+      title: 'Explore by Activity',
+      subtitle: 'Choose your adventure style and discover the perfect mountain experience',
+      popularAcross: 'Most popular destinations across all activity types',
+      hiking: {
+        title: 'Hiking & Trekking',
+        description:
+          "From gentle trails to challenging multi-day treks through Azerbaijan's stunning landscapes.",
+        destinations: 'destinations',
+      },
+      climbing: {
+        title: 'Mountain Climbing',
+        description:
+          "Scale Azerbaijan's highest peaks with routes for both beginners and experienced climbers.",
+        destinations: 'destinations',
+      },
+      skiing: {
+        title: 'Skiing & Winter Sports',
+        description:
+          'World-class ski resorts and backcountry skiing in pristine mountain environments.',
+        destinations: 'destinations',
+      },
+      camping: {
+        title: 'Mountain Camping',
+        description:
+          'Immerse yourself in nature with camping sites ranging from basic to fully-equipped.',
+        destinations: 'destinations',
+      },
+      photography: {
+        title: 'Photography Tours',
+        description:
+          'Capture breathtaking landscapes with guided photography expeditions to scenic viewpoints.',
+        destinations: 'destinations',
+      },
+    },
+    planner: {
+      title: 'Smart Climb Planner',
+      subtitle: 'Customize your mountain adventure with our intelligent planning tool',
+      planYourAdventure: 'Plan Your Adventure',
+      selectMountain: 'Select Mountain',
+      chooseMountain: 'Choose a mountain...',
+      startDate: 'Start Date',
+      duration: 'Duration (Days)',
+      day: 'day',
+      days: 'days',
+      bestSeason: 'Best Season',
+      activityType: 'Activity Type',
+      difficultyLevel: 'Difficulty Level',
+      accessibilityRoutes: 'Enable Accessibility-Friendly Routes',
+      optionalAddons: 'Optional Add-ons',
+      yourItinerary: 'Your Itinerary',
+      tripSummary: 'Trip Summary',
+      baseCost: 'Base cost',
+      addons: 'Add-ons:',
+      totalCost: 'Total Cost',
+      safetyTips: 'Seasonal Safety Tips',
+      planRoute: 'Book Now',
+      packages: {
+        guide: 'Professional Guide',
+        equipment: 'Equipment Rental',
+        transport: 'Transport from Baku',
+        meals: 'Meal Package',
+        insurance: 'Travel Insurance',
+      },
+      itinerary: {
+        arrival:
+          'Arrival and base camp setup • Orientation and safety briefing • Light acclimatization hike',
+        finale: 'Summit attempt or final exploration • Descent to base • Return journey',
+        options: [
+          'Advanced trail hiking • Scenic viewpoints • Local culture exploration',
+          'Technical climbing section • Alpine meadow traverse • Wildlife observation',
+          'Ridge walking • Photography opportunities • Mountain lake visit',
+          'Forest trail exploration • Waterfall visit • Rest and recovery',
+        ],
+      },
+    },
+    faq: {
+      title: 'Frequently Asked Questions',
+      subtitle: 'Everything you need to know about planning your mountain adventure',
+      items: [
+        {
+          question: 'How do I book a mountain climbing trip?',
+          answer:
+            'Use the Smart Climb Planner to pick your mountain, dates, duration, and add-ons. Then hit "Generate Route & Book Now" for your itinerary and confirmation.',
+        },
+        {
+          question: 'What safety measures are in place?',
+          answer:
+            'We provide safety briefings, emergency contacts, weather monitoring, first-aid readiness, and experienced local guides (when selected).',
+        },
+        {
+          question: 'Which mountains and cities do you cover?',
+          answer:
+            '40+ destinations across Azerbaijan, including Shahdag, Bazarduzu, Tufandag, and routes from Baku, Ganja, Sheki, and regional centers.',
+        },
+        {
+          question: 'What equipment and gear are included?',
+          answer:
+            'Standard trips include maps and safety guidance. Equipment Rental adds hiking poles, packs, camping gear (if needed), and technical gear for advanced routes.',
+        },
+        {
+          question: 'Can I use the app offline in remote areas?',
+          answer:
+            'Yes. Download maps, itineraries, and safety info before departure to access them offline. Real-time weather still needs connectivity.',
+        },
+        {
+          question: 'What languages are supported?',
+          answer:
+            'TrailAZ supports English, Russian, and Azerbaijani. Switch languages in the footer; all content and confirmations are localized.',
+        },
+        {
+          question: 'Are there accessibility options for different abilities?',
+          answer:
+            'Enable Accessibility-Friendly Routes for gentler trails. We also support larger text, high contrast, dyslexia-friendly fonts, and adaptive guiding packages.',
+        },
+        {
+          question: 'What is the cancellation and refund policy?',
+          answer:
+            'Full refund 14+ days out; 50% for 7-13 days; 25% for 3-6 days; within 48 hours is non-refundable. Weather cancellations by us are fully refunded or rescheduled.',
+        },
+      ],
+      stillHaveQuestions: 'Still Have Questions?',
+      teamHere: 'Our team is here to help you plan the perfect mountain adventure',
+      liveChat: 'Live Chat',
+    },
+    footer: {
+      description: "Discover Azerbaijan's most breathtaking mountains.",
+      quickLinks: 'Quick Links',
+      about: 'About Us',
+      contactUs: 'Contact',
+      accessibility: 'Accessibility',
+      prototype: 'Hackathon MVP Prototype 2025',
+      rights: 'All rights reserved. Built for tourism innovation.',
+    },
+    accessibility: {
+      tools: 'Accessibility Tools',
+      textSize: 'Text Size',
+      normal: 'Normal',
+      large: 'Large',
+      xlarge: 'XLarge',
+      highContrast: 'High Contrast Mode',
+      dyslexiaFont: 'Dyslexia-Friendly Font',
+      magnifier: 'Magnifier Tool',
+      easyNavigation: 'Easy Navigation',
+      audioDescription: 'Audio Description',
+    },
+    cta: {
+      readyToStart: 'Ready to Start Your Adventure?',
+      joinThousands: "Join thousands of adventurers discovering Azerbaijan's hidden mountain gems.",
+      startPlanning: 'Start Planning Now',
+    },
+    common: {
+      popularActivities: 'Popular Activities',
+      viewDetails: 'View Details',
+      exploreNow: 'Explore Now',
+      loading: 'Loading...',
+    },
+  },
+  ru: {
+    nav: {
+      home: 'Главная',
+      mountains: 'Горы',
+      activities: 'Активности',
+      planner: 'Планировщик',
+      faq: 'Вопросы',
+      language: 'Язык',
+    },
+    hero: {
+      title: 'Покорите горы Азербайджана',
+      subtitle: 'Планируйте свое приключение, выбирайте даты и исследуйте безопасно',
+      planMyClimb: 'Спланировать восхождение',
+      exploreMountains: 'Исследовать горы',
+      accessibilityTools: 'Инструменты доступности',
+      trails: 'Тропы',
+      peaks: 'Вершины',
+      guides: 'Гиды',
+      seasonalTips: 'Сезонные советы',
+    },
+    features: {
+      title: 'Почему горы Азербайджана?',
+      subtitle:
+        'Испытайте идеальное сочетание приключений, безопасности и местного опыта в самых потрясающих горных направлениях Азербайджана.',
+      expertTrails: {
+        title: 'Экспертные карты маршрутов',
+        description:
+          'Профессионально составленные маршруты с подробной топографической информацией и путевыми точками.',
+      },
+      aiRoutes: {
+        title: 'Маршруты с ИИ',
+        description:
+          'Умные рекомендации на основе вашего уровня опыта, физической подготовки и предпочтений.',
+      },
+      safety: {
+        title: 'Безопасность прежде всего',
+        description:
+          'Обновления погоды в реальном времени, экстренные контакты и рекомендации по безопасности для каждой тропы.',
+      },
+      budget: {
+        title: 'Доступные варианты',
+        description: 'Прозрачные цены с пакетами на любой бюджет, от базовых до премиальных.',
+      },
+      accessibility: {
+        title: 'Функции доступности',
+        description: 'Инклюзивный дизайн с инструментами для улучшенной читаемости и навигации.',
+      },
+      offline: {
+        title: 'Офлайн-режим',
+        description:
+          'Загружайте карты и руководства для автономного доступа в отдаленных горных районах.',
+      },
+    },
+    seasons: {
+      title: 'Планируйте по сезонам',
+      subtitle:
+        'Каждый сезон предлагает уникальные впечатления и приключения в горах Азербайджана. Выберите идеальное время для исследования.',
+      winter: {
+        name: 'Зима',
+        activities: ['Лыжи', 'Сноуборд', 'Зимние походы'],
+        budget: '$$$ - Премиум',
+        difficulty: 'Средняя до сложной',
+      },
+      spring: {
+        name: 'Весна',
+        activities: ['Тропы с цветами', 'Фотография', 'Легкие походы'],
+        budget: '$$ - Средний',
+        difficulty: 'Легкая до средней',
+      },
+      summer: {
+        name: 'Лето',
+        activities: ['Восхождение на вершины', 'Кемпинг', 'Многодневные треки'],
+        budget: '$ - Бюджетный',
+        difficulty: 'Все уровни',
+      },
+      autumn: {
+        name: 'Осень',
+        activities: ['Туры по осенней листве', 'Живописные походы', 'Фотография'],
+        budget: '$$ - Средний',
+        difficulty: 'Легкая до средней',
+      },
+    },
+    mountains: {
+      title: 'Исследуйте горы Азербайджана',
+      subtitle: 'Откройте для себя невероятные горные направления',
+      searchPlaceholder: 'Поиск гор, активностей, регионов...',
+      filters: 'Фильтры',
+      region: 'Регион',
+      difficulty: 'Сложность',
+      season: 'Сезон',
+      activityType: 'Тип активности',
+      all: 'Все',
+      easy: 'Легкая',
+      moderate: 'Средняя',
+      difficult: 'Сложная',
+      expert: 'Экспертная',
+      showing: 'Показано',
+      mountain: 'гора',
+      mountains: 'гор',
+      activeFilters: 'Активные фильтры:',
+      clearAll: 'Очистить все',
+      noMountainsFound: 'Горы не найдены',
+      tryAdjusting: 'Попробуйте изменить фильтры',
+      planThisClimb: 'Спланировать восхождение',
+    },
+    activities: {
+      title: 'Исследуйте по активностям',
+      subtitle: 'Выберите свой стиль приключений',
+      popularAcross: 'Самые популярные направления среди всех активностей',
+      hiking: {
+        title: 'Пешие походы и треккинг',
+        description: 'От легких троп до сложных многодневных походов.',
+        destinations: 'направлений',
+      },
+      climbing: {
+        title: 'Альпинизм',
+        description: 'Покорите самые высокие вершины Азербайджана.',
+        destinations: 'направлений',
+      },
+      skiing: {
+        title: 'Лыжи и зимние виды спорта',
+        description: 'Горнолыжные курорты мирового класса.',
+        destinations: 'направлений',
+      },
+      camping: {
+        title: 'Горный кемпинг',
+        description: 'Погрузитесь в природу с кемпингами.',
+        destinations: 'направлений',
+      },
+      photography: {
+        title: 'Фототуры',
+        description: 'Запечатлейте захватывающие пейзажи.',
+        destinations: 'направлений',
+      },
+    },
+    planner: {
+      title: 'Умный планировщик восхождений',
+      subtitle: 'Настройте свое горное приключение',
+      planYourAdventure: 'Спланируйте приключение',
+      selectMountain: 'Выберите гору',
+      chooseMountain: 'Выберите гору...',
+      startDate: 'Дата начала',
+      duration: 'Продолжительность (дни)',
+      day: 'день',
+      days: 'дней',
+      bestSeason: 'Лучший сезон',
+      activityType: 'Тип активности',
+      difficultyLevel: 'Уровень сложности',
+      accessibilityRoutes: 'Включить маршруты для людей с ограниченными возможностями',
+      optionalAddons: 'Дополнительные опции',
+      yourItinerary: 'Ваш маршрут',
+      tripSummary: 'Итоги поездки',
+      baseCost: 'Базовая стоимость',
+      addons: 'Дополнения:',
+      totalCost: 'Общая стоимость',
+      safetyTips: 'Советы по безопасности',
+      planRoute: 'Запланировать маршрут',
+      packages: {
+        guide: 'Профессиональный гид',
+        equipment: 'Аренда снаряжения',
+        transport: 'Транспорт из Баку',
+        meals: 'Пакет питания',
+        insurance: 'Страхование',
+      },
+      itinerary: {
+        arrival:
+          'Прибытие и установка лагеря • Инструктаж по безопасности • Лёгкая акклиматизационная прогулка',
+        finale: 'Штурм вершины или финальное исследование • Спуск в базу • Возвращение',
+        options: [
+          'Продвинутый треккинг • Видовые точки • Знакомство с местной культурой',
+          'Технический участок • Альпийские луга • Наблюдение за дикой природой',
+          'Хребтовая прогулка • Фототочки • Посещение горного озера',
+          'Лесная тропа • Водопад • Отдых и восстановление',
+        ],
+      },
+    },
+    faq: {
+      title: 'Часто задаваемые вопросы',
+      subtitle: 'Все о планировании горного приключения',
+      items: [
+        {
+          question: 'Как забронировать поход в горы?',
+          answer:
+            'Используйте умный планировщик: выберите гору, даты, длительность и опции. Нажмите «Сформировать маршрут» и получите подтверждение с маршрутом.',
+        },
+        {
+          question: 'Какие меры безопасности предусмотрены?',
+          answer:
+            'Мы проводим инструктаж, даём экстренные контакты, следим за погодой, имеем аптечки и работаем с опытными гидами (если выбран этот пакет).',
+        },
+        {
+          question: 'Какие горы и города доступны?',
+          answer:
+            '40+ направлений по Азербайджану: Шахдаг, Базардузу, Туфандаг и другие, старт из Баку, Гянджи, Шеки и региональных центров.',
+        },
+        {
+          question: 'Что входит в оборудование?',
+          answer:
+            'Базово: карты и рекомендации по безопасности. Аренда оборудования включает палки, рюкзаки, кемпинг-набор (при необходимости) и снаряжение для сложных маршрутов.',
+        },
+        {
+          question: 'Можно ли пользоваться офлайн?',
+          answer:
+            'Да. Загрузите карты, маршрут и рекомендации заранее и используйте без интернета. Для актуальной погоды требуется связь.',
+        },
+        {
+          question: 'Какие языки поддерживаются?',
+          answer:
+            'TrailAZ поддерживает английский, русский и азербайджанский. Переключатель языка в подвале, весь контент локализован.',
+        },
+        {
+          question: 'Есть ли опции доступности?',
+          answer:
+            'Включите «Маршруты доступности» для мягких троп. Доступны крупный текст, высокий контраст, шрифт для дислексии и адаптивные туры с гидами.',
+        },
+        {
+          question: 'Как работает отмена и возврат?',
+          answer:
+            '100% за 14+ дней, 50% за 7–13 дней, 25% за 3–6 дней, менее 48 часов — без возврата. Отмена из‑за погоды по нашей инициативе — полный возврат или перенос.',
+        },
+      ],
+      stillHaveQuestions: 'Остались вопросы?',
+      teamHere: 'Мы поможем спланировать идеальное горное приключение',
+      liveChat: 'Онлайн-чат',
+    },
+    footer: {
+      description: 'Откройте для себя горы Азербайджана.',
+      quickLinks: 'Быстрые ссылки',
+      about: 'О нас',
+      contactUs: 'Связаться',
+      accessibility: 'Доступность',
+      prototype: 'Прототип MVP 2025',
+      rights: 'Все права защищены. Создано для инноваций в туризме.',
+    },
+    accessibility: {
+      tools: 'Инструменты доступности',
+      textSize: 'Размер текста',
+      normal: 'Обычный',
+      large: 'Большой',
+      xlarge: 'Очень большой',
+      highContrast: 'Высокая контрастность',
+      dyslexiaFont: 'Шрифт для дислексии',
+      magnifier: 'Увеличение',
+      easyNavigation: 'Удобная навигация',
+      audioDescription: 'Аудиоописание',
+    },
+    cta: {
+      readyToStart: 'Готовы начать?',
+      joinThousands: 'Присоединяйтесь к тысячам искателей приключений.',
+      startPlanning: 'Начать планирование',
+    },
+    common: {
+      popularActivities: 'Популярные активности',
+      viewDetails: 'Подробнее',
+      exploreNow: 'Исследовать сейчас',
+      loading: 'Загрузка...',
+    },
+  },
+  az: {
+    nav: {
+      home: 'Ana səhifə',
+      mountains: 'Dağlar',
+      activities: 'Fəaliyyətlər',
+      planner: 'Planlaşdırıcı',
+      faq: 'Suallar',
+      language: 'Dil',
+    },
+    hero: {
+      title: 'Azərbaycanın dağlarını fəth edin',
+      subtitle: 'Macəranızı planlayın və təhlükəsiz kəşf edin',
+      planMyClimb: 'Dırmaşmamı planlaşdır',
+      exploreMountains: 'Dağları kəşf edin',
+      accessibilityTools: 'Əlçatanlıq alətləri',
+      trails: 'Cığırlar',
+      peaks: 'Zirvələr',
+      guides: 'Bələdçilər',
+      seasonalTips: 'Mövsümi məsləhətlər',
+    },
+    features: {
+      title: 'Niyə Azərbaycan dağları?',
+      subtitle:
+        'Azərbaycanın ən heyrətamiz dağ istiqamətlərində macəra, təhlükəsizlik və yerli təcrübənin mükəmməl qarışığını yaşayın.',
+      expertTrails: {
+        title: 'Ekspert marşrut xəritələri',
+        description:
+          'Ətraflı topoqrafik məlumat və yol nöqtələri ilə peşəkar şəkildə xəritələşdirilmiş marşrutlar.',
+      },
+      aiRoutes: {
+        title: 'Süni intellektlə tövsiyə olunan marşrutlar',
+        description:
+          'Təcrübə səviyyəniz, fiziki hazırlığınız və üstünlüklərinizə əsaslanan ağıllı tövsiyələr.',
+      },
+      safety: {
+        title: 'Təhlükəsizlik prioritetdir',
+        description:
+          'Real vaxt hava məlumatları, təcili əlaqələr və hər cığır üçün təhlükəsizlik göstərişləri.',
+      },
+      budget: {
+        title: 'Büdcəyə uyğun variantlar',
+        description:
+          'Əsasdan premium təcrübələrə qədər hər büdcə üçün paketlərlə şəffaf qiymətlər.',
+      },
+      accessibility: {
+        title: 'Əlçatanlıq xüsusiyyətləri',
+        description:
+          'Təkmilləşdirilmiş oxunaqlıq və naviqasiya köməyi üçün alətlərlə inklüziv dizayn.',
+      },
+      offline: {
+        title: 'Oflayn hazırdır',
+        description: 'Uzaq dağlıq ərazilərdə oflayn giriş üçün xəritələri və bələdçiləri yükləyin.',
+      },
+    },
+    seasons: {
+      title: 'Mövsümə görə planlayın',
+      subtitle:
+        'Hər mövsüm Azərbaycan dağlarında unikal təcrübələr və macəralar təklif edir. Kəşf etmək üçün mükəmməl vaxtınızı seçin.',
+      winter: {
+        name: 'Qış',
+        activities: ['Xizək', 'Snouboard', 'Qış gəzintiləri'],
+        budget: '$$$ - Premium',
+        difficulty: 'Orta-çətin',
+      },
+      spring: {
+        name: 'Bahar',
+        activities: ['Çiçək cığırları', 'Fotoqrafiya', 'Yüngül gəzintilər'],
+        budget: '$$ - Orta',
+        difficulty: 'Asan-orta',
+      },
+      summer: {
+        name: 'Yay',
+        activities: ['Zirvə dırmaşması', 'Düşərgə', 'Çoxgünlük yürüşlər'],
+        budget: '$ - Büdcəyə uyğun',
+        difficulty: 'Bütün səviyyələr',
+      },
+      autumn: {
+        name: 'Payız',
+        activities: ['Payız yarpaqları turları', 'Mənzərəli gəzintilər', 'Fotoqrafiya'],
+        budget: '$$ - Orta',
+        difficulty: 'Asan-orta',
+      },
+    },
+    mountains: {
+      title: 'Azərbaycan dağlarını kəşf edin',
+      subtitle: 'İnanılmaz dağ istiqamətlərini kəşf edin',
+      searchPlaceholder: 'Dağları, fəaliyyətləri axtarın...',
+      filters: 'Filtrlər',
+      region: 'Region',
+      difficulty: 'Çətinlik',
+      season: 'Mövsüm',
+      activityType: 'Fəaliyyət növü',
+      all: 'Hamısı',
+      easy: 'Asan',
+      moderate: 'Orta',
+      difficult: 'Çətin',
+      expert: 'Ekspert',
+      showing: 'Göstərilir',
+      mountain: 'dağ',
+      mountains: 'dağ',
+      activeFilters: 'Aktiv filtrlər:',
+      clearAll: 'Hamısını təmizlə',
+      noMountainsFound: 'Dağ tapılmadı',
+      tryAdjusting: 'Filtrləri tənzimləyin',
+      planThisClimb: 'Bu dırmaşmanı planlaşdır',
+    },
+    activities: {
+      title: 'Fəaliyyətə görə kəşf edin',
+      subtitle: 'Macəra üslubunuzu seçin',
+      popularAcross: 'Bütün fəaliyyət növləri üzrə ən populyar istiqamətlər',
+      hiking: {
+        title: 'Piyada gəzintilər',
+        description: 'Yüngül cığırlardan çətin yürüşlərə qədər.',
+        destinations: 'istiqamət',
+      },
+      climbing: {
+        title: 'Dağ dırmaşması',
+        description: 'Azərbaycanın zirvələrini fəth edin.',
+        destinations: 'istiqamət',
+      },
+      skiing: {
+        title: 'Xizək və qış idmanları',
+        description: 'Dünya səviyyəli xizək kurortları.',
+        destinations: 'istiqamət',
+      },
+      camping: {
+        title: 'Dağ düşərgəsi',
+        description: 'Təbiətə qərq olun.',
+        destinations: 'istiqamət',
+      },
+      photography: {
+        title: 'Fotoqrafiya turları',
+        description: 'Mənzərələri çəkin.',
+        destinations: 'istiqamət',
+      },
+    },
+    planner: {
+      title: 'Ağıllı planlaşdırıcı',
+      subtitle: 'Dağ macəranızı fərdiləşdirin',
+      planYourAdventure: 'Macəranızı planlayın',
+      selectMountain: 'Dağı seçin',
+      chooseMountain: 'Dağ seçin...',
+      startDate: 'Başlama tarixi',
+      duration: 'Müddət (gün)',
+      day: 'gün',
+      days: 'gün',
+      bestSeason: 'Ən yaxşı mövsüm',
+      activityType: 'Fəaliyyət növü',
+      difficultyLevel: 'Çətinlik səviyyəsi',
+      accessibilityRoutes: 'Məhdud imkanlı marşrutlar',
+      optionalAddons: 'Əlavə seçimlər',
+      yourItinerary: 'Marşrutunuz',
+      tripSummary: 'Səfər xülasəsi',
+      baseCost: 'Əsas qiymət',
+      addons: 'Əlavələr:',
+      totalCost: 'Ümumi qiymət',
+      safetyTips: 'Təhlükəsizlik məsləhətləri',
+      planRoute: 'Planlaşdır',
+      packages: {
+        guide: 'Bələdçi',
+        equipment: 'Avadanlıq icarəsi',
+        transport: 'Nəqliyyat',
+        meals: 'Yemək paketi',
+        insurance: 'Sığorta',
+      },
+      itinerary: {
+        arrival:
+          'Gəliş və baza düşərgəsinin qurulması • Təhlükəsizlik brifinqi • Yüngül adaptasiya yürüşü',
+        finale: 'Zirvə cəhdi və ya son araşdırma • Bazaya eniş • Geri dönüş',
+        options: [
+          'İrəli səviyyə yürüşü • Mənzərəli nöqtələr • Yerli mədəniyyətlə tanışlıq',
+          'Texniki dırmaşma hissəsi • Alp çəmənlikləri • Vəhşi təbiətin müşahidəsi',
+          'Sıra dağ gəzintisi • Foto imkanları • Dağ gölü ziyarəti',
+          'Meşə cığırı • Şəlalə ziyarəti • İstirahət və bərpa',
+        ],
+      },
+    },
+    faq: {
+      title: 'Tez-tez verilən suallar',
+      subtitle: 'Planlaşdırma haqqında hər şey',
+      items: [
+        {
+          question: 'Dağ yürüşünü necə sifariş edim?',
+          answer:
+            'Ağıllı planlaşdırıcıda dağı, tarixi, müddəti və əlavələri seçin. “Marşrut yarat” düyməsini basın və təsdiq/itinerar alın.',
+        },
+        {
+          question: 'Təhlükəsizlik necə təmin olunur?',
+          answer:
+            'İnstruktaj, təcili əlaqələr, hava izləmə, ilk yardım dəstləri və təcrübəli bələdçilər (seçildikdə) təqdim olunur.',
+        },
+        {
+          question: 'Hansız dağlar və şəhərlər daxildir?',
+          answer:
+            '40+ istiqamət: Şahdağ, Bazardüzü, Tufandağ və s.; başlanğıc Baku, Gəncə, Şəki və digər regional mərkəzlərdən.',
+        },
+        {
+          question: 'Avadanlığa nə daxildir?',
+          answer:
+            'Standart olaraq xəritələr və təhlükəsizlik tövsiyələri. Avadanlıq icarəsi: yürüş çubuqları, bel çantaları, kamp ləvazimatı (lazımdırsa) və çətin marşrutlar üçün texniki avadanlıq.',
+        },
+        {
+          question: 'Oflayn istifadə mümkündür?',
+          answer:
+            'Bəli. Səyahətdən əvvəl xəritə, marşrut və təhlükəsizlik məlumatını yükləyin və internetsiz istifadə edin. Hava məlumatı üçün əlaqə lazımdır.',
+        },
+        {
+          question: 'Hansı dillər dəstəklənir?',
+          answer:
+            'TrailAZ ingilis, rus və Azərbaycan dillərini dəstəkləyir. Dil seçimi altbilgidədir; bütün məzmun lokalizasiya olunub.',
+        },
+        {
+          question: 'Fərqli imkanlar üçün əlçatanlıq varmı?',
+          answer:
+            '“Əlçatan marşrutlar”ı aktivləşdirin, daha hamar cığırları görün. Böyük mətn, yüksək kontrast, disleksiya şrifti və adaptiv bələdçi paketləri mövcuddur.',
+        },
+        {
+          question: 'Ləğv və geri qaytarma şərtləri nədir?',
+          answer:
+            '14+ gün əvvəl 100%, 7–13 gün 50%, 3–6 gün 25%, 48 saatdan az - geri qaytarılmır. Hava səbəbilə bizim ləğvimiz tam geri ödəmə və ya təxirəsalma ilədir.',
+        },
+      ],
+      stillHaveQuestions: 'Başqa sualınız var?',
+      teamHere: 'Mükəmməl dağ macəranızı planlamaqda kömək edirik',
+      liveChat: 'Canlı çat',
+    },
+    footer: {
+      description: 'Azərbaycanın dağlarını kəşf edin.',
+      quickLinks: 'Sürətli keçidlər',
+      about: 'Haqqımızda',
+      contactUs: 'Əlaqə',
+      accessibility: 'Əlçatanlıq',
+      prototype: 'MVP Prototipi 2025',
+      rights: 'Bütün hüquqlar qorunur. Turizm innovasiyası üçün yaradılıb.',
+    },
+    accessibility: {
+      tools: 'Əlçatanlıq alətləri',
+      textSize: 'Mətn ölçüsü',
+      normal: 'Normal',
+      large: 'Böyük',
+      xlarge: 'Çox böyük',
+      highContrast: 'Yüksək kontrast',
+      dyslexiaFont: 'Disleksiya şrifti',
+      magnifier: 'Böyüdücü',
+      easyNavigation: 'Asan naviqasiya',
+      audioDescription: 'Audio təsvir',
+    },
+    cta: {
+      readyToStart: 'Hazırsınız?',
+      joinThousands: 'Macəraçılara qoşulun.',
+      startPlanning: 'Planlaşdırmağa başlayın',
+    },
+    common: {
+      popularActivities: 'Populyar fəaliyyətlər',
+      viewDetails: 'Ətraflı',
+      exploreNow: 'İndi kəşf edin',
+      loading: 'Yüklənir...',
+    },
+  },
+};
