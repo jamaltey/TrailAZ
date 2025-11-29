@@ -232,6 +232,17 @@ export const translations: Record<Language, any> = {
       teamHere: 'Our team is here to help you plan the perfect mountain adventure',
       liveChat: 'Live Chat',
     },
+    chat: {
+      title: 'TrailAZ Live Chat',
+      subtitle: 'FAQ assistant',
+      greeting:
+        "Hi! I'm the TrailAZ FAQ assistant. Ask me about mountains, routes, safety, pricing, or trip planning.",
+      placeholder: 'Ask about mountains, routes, safety...',
+      send: 'Send',
+      sending: 'Sending...',
+      fallback: 'Sorry, I could not generate a reply right now.',
+      error: 'Sorry, I had trouble answering that. Please try again.',
+    },
     footer: {
       description: "Discover Azerbaijan's most breathtaking mountains.",
       quickLinks: 'Quick Links',
@@ -489,6 +500,17 @@ export const translations: Record<Language, any> = {
       stillHaveQuestions: 'Остались вопросы?',
       teamHere: 'Мы поможем спланировать идеальное горное приключение',
       liveChat: 'Онлайн-чат',
+    },
+    chat: {
+      title: 'TrailAZ Онлайн-чат',
+      subtitle: 'FAQ ассистент',
+      greeting:
+        'Привет! Я FAQ-ассистент TrailAZ. Спросите о горах, маршрутах, безопасности, ценах или планировании поездки.',
+      placeholder: 'Спросите о горах, маршрутах, безопасности...',
+      send: 'Отправить',
+      sending: 'Отправка...',
+      fallback: 'Извините, не удалось ответить сейчас.',
+      error: 'Извините, не получилось ответить. Попробуйте снова.',
     },
     footer: {
       description: 'Откройте для себя горы Азербайджана.',
@@ -748,6 +770,17 @@ export const translations: Record<Language, any> = {
       stillHaveQuestions: 'Başqa sualınız var?',
       teamHere: 'Mükəmməl dağ macəranızı planlamaqda kömək edirik',
       liveChat: 'Canlı çat',
+    },
+    chat: {
+      title: 'TrailAZ Canlı Çat',
+      subtitle: 'FAQ köməkçisi',
+      greeting:
+        'Salam! Mən TrailAZ FAQ köməkçisiyəm. Dağlar, marşrutlar, təhlükəsizlik, qiymətlər və ya səfər planı barədə soruşun.',
+      placeholder: 'Dağlar, marşrutlar, təhlükəsizlik barədə soruşun...',
+      send: 'Göndər',
+      sending: 'Göndərilir...',
+      fallback: 'Bağışlayın, hazırda cavab yarada bilmədim.',
+      error: 'Bağışlayın, cavab verə bilmədim. Zəhmət olmasa yenidən sınayın.',
     },
     footer: {
       description: 'Azərbaycanın dağlarını kəşf edin.',

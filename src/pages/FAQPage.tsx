@@ -5,25 +5,28 @@ import { ask } from '../utils/chatbot';
 
 type ChatMessage = { role: 'user' | 'assistant'; text: string };
 
-const initialChatMessages: ChatMessage[] = [
-  {
-    role: 'assistant',
-    text: "Hi! I'm the TrailAZ FAQ assistant. Ask me about mountains, routes, safety, pricing, or trip planning.",
-  },
-];
-
 function ChatWidget({
   open,
   onClose,
   messages,
   onSend,
   isSending,
+  title,
+  subtitle,
+  placeholder,
+  sendLabel,
+  sendingLabel,
 }: {
   open: boolean;
   onClose: () => void;
   messages: ChatMessage[];
   onSend: (text: string) => Promise<void>;
   isSending: boolean;
+  title: string;
+  subtitle: string;
+  placeholder: string;
+  sendLabel: string;
+  sendingLabel: string;
 }) {
   const [input, setInput] = React.useState('');
   const messagesEndRef = React.useRef<HTMLDivElement | null>(null);
@@ -54,8 +57,8 @@ function ChatWidget({
               <MessageCircle className="text-teal-primary h-5 w-5" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-900">TrailAZ Live Chat</p>
-              <p className="text-xs text-gray-500">FAQ assistant</p>
+              <p className="text-sm font-semibold text-gray-900">{title}</p>
+              <p className="text-xs text-gray-500">{subtitle}</p>
             </div>
           </div>
           <button
@@ -91,7 +94,7 @@ function ChatWidget({
           <div className="flex items-center gap-2">
             <input
               className="focus:ring-teal-primary w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:outline-none"
-              placeholder="Ask about mountains, routes, safety..."
+              placeholder={placeholder}
               value={input}
               onChange={e => setInput(e.target.value)}
               disabled={isSending}
@@ -101,7 +104,7 @@ function ChatWidget({
               disabled={isSending}
               className="text-white rounded-xl bg-teal-primary px-4 py-2 text-sm font-semibold transition hover:bg-teal-600 disabled:opacity-60"
             >
-              {isSending ? 'Sending...' : 'Send'}
+              {isSending ? sendingLabel : sendLabel}
             </button>
           </div>
         </form>
@@ -158,13 +161,35 @@ export function FAQPage() {
   const [openIndex, setOpenIndex] = React.useState<number | null>(0);
   const [isChatOpen, setIsChatOpen] = React.useState(false);
   const [isSending, setIsSending] = React.useState(false);
-  const [chatMessages, setChatMessages] = React.useState<ChatMessage[]>(initialChatMessages);
+  const chatStrings = {
+    title: t.chat?.title || 'TrailAZ Live Chat',
+    subtitle: t.chat?.subtitle || 'FAQ assistant',
+    greeting:
+      t.chat?.greeting ||
+      "Hi! I'm the TrailAZ FAQ assistant. Ask me about mountains, routes, safety, pricing, or trip planning.",
+    placeholder: t.chat?.placeholder || 'Ask about mountains, routes, safety...',
+    send: t.chat?.send || 'Send',
+    sending: t.chat?.sending || 'Sending...',
+    fallback: t.chat?.fallback || 'Sorry, I could not generate a reply right now.',
+    error: t.chat?.error || 'Sorry, I had trouble answering that. Please try again.',
+  };
+  const [chatMessages, setChatMessages] = React.useState<ChatMessage[]>([
+    { role: 'assistant', text: chatStrings.greeting },
+  ]);
 
   const faqs: { question: string; answer: string }[] = t.faq?.items ?? defaultFaqs;
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
+  React.useEffect(() => {
+    const greeting = chatStrings.greeting;
+    setChatMessages(prev =>
+      prev.length === 1 && prev[0].role === 'assistant' ? [{ role: 'assistant', text: greeting }] : prev
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatStrings.greeting]);
 
   const handleSendMessage = async (text: string) => {
     setChatMessages(prev => [...prev, { role: 'user', text }]);
@@ -173,7 +198,7 @@ export function FAQPage() {
       const reply = await ask(text);
       setChatMessages(prev => [
         ...prev,
-        { role: 'assistant', text: reply || 'Sorry, I could not generate a reply right now.' },
+        { role: 'assistant', text: reply || chatStrings.fallback },
       ]);
     } catch (error) {
       console.error('Chat error', error);
@@ -181,7 +206,7 @@ export function FAQPage() {
         ...prev,
         {
           role: 'assistant',
-          text: 'Sorry, I had trouble answering that. Please try again.',
+          text: chatStrings.error,
         },
       ]);
     } finally {
@@ -263,6 +288,11 @@ export function FAQPage() {
         messages={chatMessages}
         onSend={handleSendMessage}
         isSending={isSending}
+        title={chatStrings.title}
+        subtitle={chatStrings.subtitle}
+        placeholder={chatStrings.placeholder}
+        sendLabel={chatStrings.send}
+        sendingLabel={chatStrings.sending}
       />
     </div>
   );
