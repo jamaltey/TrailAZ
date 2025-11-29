@@ -1,5 +1,5 @@
 import { Calendar, DollarSign, TrendingUp } from 'lucide-react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ImageWithFallback } from './common/ImageWithFallback';
 
 interface SeasonCardProps {
   season: string;

@@ -2,7 +2,7 @@ import { MapPin, Mountain, Tag, TrendingUp } from 'lucide-react';
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { MountainDetailModal } from './MountainDetailModal';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { ImageWithFallback } from './common/ImageWithFallback';
 
 export interface MountainData {
   id: number;
