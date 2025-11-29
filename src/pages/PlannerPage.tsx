@@ -126,23 +126,31 @@ export function PlannerPage({ preselectedMountain }: PlannerPageProps) {
       .filter(pkg => selectedPackages.includes(pkg.id))
       .map(pkg => ({ id: pkg.id, name: pkg.name, price: pkg.price }));
     try {
-      const { error } = await supabase.from('trips').insert({
-        user_id: user.id,
-        title: mountain?.name || 'Custom trip',
-        mountain: mountain?.name || null,
-        activity_type: activity,
-        start_date: startDate,
-        end_date: endDate,
-        addons,
-        total_cost: totalCost,
-        status: 'Planned',
-        notes: accessibilityMode ? 'Accessibility-friendly route requested' : null,
-      });
+      const { data, error } = await supabase
+        .from('trips')
+        .insert({
+          user_id: user.id,
+          title: mountain?.name || 'Custom trip',
+          mountain: mountain?.name || null,
+          activity_type: activity,
+          start_date: startDate,
+          end_date: endDate,
+          addons,
+          total_cost: totalCost,
+          status: 'Planned',
+          notes: accessibilityMode ? 'Accessibility-friendly route requested' : null,
+        })
+        .select('id')
+        .single();
       if (error) {
         setBookingError(error.message || 'Could not save trip.');
       } else {
         setBookingMessage('Trip saved to your profile.');
-        navigate('/profile');
+        if (data?.id) {
+          navigate(`/trips/${data.id}`);
+        } else {
+          navigate('/profile');
+        }
       }
     } catch (err: any) {
       setBookingError(err?.message || 'Could not save trip.');

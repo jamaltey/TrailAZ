@@ -40,7 +40,13 @@ function AppContent() {
     profile: '/profile',
   };
 
-  const currentPage = pathToPage[location.pathname as keyof typeof pathToPage] || 'home';
+  const pathname = location.pathname;
+  const currentPage =
+    pathname === '/'
+      ? 'home'
+      : pathname.startsWith('/trips')
+        ? 'profile'
+        : pathToPage[pathname as keyof typeof pathToPage] || 'home';
 
   const handleNavigate = (page: string, data?: any) => {
     const target = pageToPath[(page as Page) || 'home'] || '/';

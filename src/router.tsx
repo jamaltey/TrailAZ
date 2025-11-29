@@ -6,6 +6,7 @@ import { FAQPage } from './pages/FAQPage';
 import { HomePage } from './pages/HomePage';
 import { MountainsPage } from './pages/MountainsPage';
 import { PlannerPage } from './pages/PlannerPage';
+import { TripDetailsPage } from './pages/TripDetailsPage';
 import { ProfilePage } from './pages/ProfilePage';
 
 type AppRoutesProps = {
@@ -31,6 +32,7 @@ export function AppRoutes({ onNavigate, plannerData }: AppRoutesProps) {
       />
       <Route path="/auth" element={<AuthPage onNavigate={onNavigate} />} />
       <Route path="/profile" element={<ProfilePage onNavigate={onNavigate} />} />
+      <Route path="/trips/:id" element={<TripDetailsPage onNavigate={onNavigate} />} />
       <Route path="/faq" element={<FAQPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
