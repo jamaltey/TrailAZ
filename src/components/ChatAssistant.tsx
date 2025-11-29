@@ -78,9 +78,7 @@ function ChatWidget({
             >
               <div
                 className={`rounded-2xl px-3 py-2 text-sm leading-relaxed ${
-                  msg.role === 'user'
-                    ? 'bg-teal-primary text-white'
-                    : 'bg-gray-100 text-gray-800'
+                  msg.role === 'user' ? 'bg-teal-primary text-white' : 'bg-gray-100 text-gray-800'
                 }`}
               >
                 {msg.text}
@@ -126,6 +124,7 @@ export function ChatAssistant() {
     sending: t.chat?.sending || 'Sending...',
     fallback: t.chat?.fallback || 'Sorry, I could not generate a reply right now.',
     error: t.chat?.error || 'Sorry, I had trouble answering that. Please try again.',
+    liveChatButton: t.chat?.liveChatButton || t.faq?.liveChat || 'Live Chat',
   };
 
   const [isOpen, setIsOpen] = React.useState(false);
@@ -178,7 +177,7 @@ export function ChatAssistant() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 left-6 z-40 flex items-center gap-2 rounded-full bg-teal-primary px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2"
+        className="fixed bottom-6 left-6 z-40 flex items-center gap-2 rounded-full bg-teal-primary px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-teal-600"
       >
         <MessageCircle className="h-5 w-5" />
         <span>{chatStrings.liveChatButton || t.faq?.liveChat || 'Live Chat'}</span>

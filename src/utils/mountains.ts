@@ -39,6 +39,8 @@ export async function fetchMountains(): Promise<MountainData[]> {
       activities: normalizeArray(row.activities),
       tips: row.tips ?? undefined,
       facts: row.facts ?? undefined,
+      bestTime: row.bestTime ?? undefined,
+      whatToBring: normalizeArray((row as any).whatToBring),
     })) ?? []
   );
 }

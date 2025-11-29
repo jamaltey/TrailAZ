@@ -33,6 +33,7 @@ export function MountainDetailModal({
   onPlanClimb,
 }: MountainDetailModalProps) {
   const { t } = useTranslation();
+  if (!isOpen) return null;
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -67,36 +68,35 @@ export function MountainDetailModal({
   };
 
   return (
-    <div onClickCapture={e => e.stopPropagation()}>
-      <Transition show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-50" onClose={onClose} open={isOpen}>
-          <TransitionChild
-            as={Fragment}
-            enter="transition-opacity ease-out duration-150"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity ease-in duration-150"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <DialogBackdrop
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm"
-              aria-hidden="true"
-            />
-          </TransitionChild>
+    <Transition show={true} as={Fragment}>
+      <Dialog as="div" className="relative z-50" onClose={onClose} open>
+        <TransitionChild
+          as={Fragment}
+          enter="transition-opacity ease-out duration-150"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity ease-in duration-150"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <DialogBackdrop
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+            aria-hidden="true"
+          />
+        </TransitionChild>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4">
-              <TransitionChild
-                as={Fragment}
-                enter="transition-transform ease-out duration-150"
-                enterFrom="translate-y-4 opacity-0 scale-95"
-                enterTo="translate-y-0 opacity-100 scale-100"
-                leave="transition-transform ease-in duration-150"
-                leaveFrom="translate-y-0 opacity-100 scale-100"
-                leaveTo="translate-y-4 opacity-0 scale-95"
-              >
-                <DialogPanel className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div className="fixed inset-0 overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4 pointer-events-none">
+            <TransitionChild
+              as={Fragment}
+              enter="transition-transform ease-out duration-150"
+              enterFrom="translate-y-4 opacity-0 scale-95"
+              enterTo="translate-y-0 opacity-100 scale-100"
+              leave="transition-transform ease-in duration-150"
+              leaveFrom="translate-y-0 opacity-100 scale-100"
+              leaveTo="translate-y-4 opacity-0 scale-95"
+            >
+              <DialogPanel className="pointer-events-auto bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
                   {/* Header Image */}
                   <div className="relative h-72 md:h-96 overflow-hidden rounded-t-3xl">
                     <img
@@ -279,7 +279,9 @@ export function MountainDetailModal({
 
                     {/* Action Button */}
                     <button
-                      onClick={() => {
+                      type="button"
+                      onClick={e => {
+                        e.stopPropagation();
                         onPlanClimb(mountain);
                         onClose();
                       }}
@@ -294,6 +296,5 @@ export function MountainDetailModal({
           </div>
         </Dialog>
       </Transition>
-    </div>
   );
 }
