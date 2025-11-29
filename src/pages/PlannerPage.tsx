@@ -1,8 +1,11 @@
 import { AlertCircle, Calendar, CheckCircle, MapPin, Package } from 'lucide-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { MountainData } from '../components/MountainCard';
+import { useAuth } from '../hooks/useAuth';
 import { fetchMountains } from '../utils/mountains';
+import { supabase } from '../utils/supabase';
 
 interface PlannerPageProps {
   preselectedMountain?: MountainData;
@@ -10,6 +13,8 @@ interface PlannerPageProps {
 
 export function PlannerPage({ preselectedMountain }: PlannerPageProps) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [mountains, setMountains] = React.useState<MountainData[]>([]);
   const [selectedMountain, setSelectedMountain] = React.useState(
     preselectedMountain?.id.toString() || ''
@@ -19,6 +24,9 @@ export function PlannerPage({ preselectedMountain }: PlannerPageProps) {
   const [accessibilityMode, setAccessibilityMode] = React.useState(false);
   const [startDate, setStartDate] = React.useState('');
   const [selectedPackages, setSelectedPackages] = React.useState<string[]>([]);
+  const [bookingMessage, setBookingMessage] = React.useState('');
+  const [bookingError, setBookingError] = React.useState('');
+  const [bookingLoading, setBookingLoading] = React.useState(false);
 
   const packages = [
     { id: 'guide', name: t('planner.packages.guide'), price: 150 },
@@ -76,6 +84,13 @@ export function PlannerPage({ preselectedMountain }: PlannerPageProps) {
   const itinerary = generateItinerary();
   const mountain = getMountainData();
 
+  const computeEndDate = () => {
+    if (!startDate) return null;
+    const d = new Date(startDate);
+    d.setDate(d.getDate() + Math.max(numDays - 1, 0));
+    return d.toISOString().split('T')[0];
+  };
+
   React.useEffect(() => {
     let cancelled = false;
     fetchMountains()
@@ -91,6 +106,50 @@ export function PlannerPage({ preselectedMountain }: PlannerPageProps) {
   }, []);
 
   console.log(mountain);
+
+  const handleBook = async () => {
+    setBookingMessage('');
+    setBookingError('');
+    if (!user) {
+      setBookingError('Please log in to save your trip.');
+      navigate('/auth');
+      return;
+    }
+    if (!selectedMountain || !startDate) {
+      setBookingError('Please select a mountain and start date.');
+      return;
+    }
+    setBookingLoading(true);
+    const totalCost = calculateTotalCost();
+    const endDate = computeEndDate();
+    const addons = packages
+      .filter(pkg => selectedPackages.includes(pkg.id))
+      .map(pkg => ({ id: pkg.id, name: pkg.name, price: pkg.price }));
+    try {
+      const { error } = await supabase.from('trips').insert({
+        user_id: user.id,
+        title: mountain?.name || 'Custom trip',
+        mountain: mountain?.name || null,
+        activity_type: activity,
+        start_date: startDate,
+        end_date: endDate,
+        addons,
+        total_cost: totalCost,
+        status: 'Planned',
+        notes: accessibilityMode ? 'Accessibility-friendly route requested' : null,
+      });
+      if (error) {
+        setBookingError(error.message || 'Could not save trip.');
+      } else {
+        setBookingMessage('Trip saved to your profile.');
+        navigate('/profile');
+      }
+    } catch (err: any) {
+      setBookingError(err?.message || 'Could not save trip.');
+    } finally {
+      setBookingLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 pt-24 pb-12">
@@ -369,10 +428,27 @@ export function PlannerPage({ preselectedMountain }: PlannerPageProps) {
             </div>
 
             {/* Action Button */}
-            <button className="bg-teal-primary hover:bg-teal-light flex w-full items-center justify-center gap-2 rounded-xl py-4 text-white shadow-lg transition-colors">
+            <button
+              onClick={handleBook}
+              disabled={bookingLoading}
+              className="bg-teal-primary hover:bg-teal-light flex w-full items-center justify-center gap-2 rounded-xl py-4 text-white shadow-lg transition-colors disabled:opacity-70"
+            >
               <CheckCircle className="h-5 w-5" />
-              {t('planner.planRoute')}
+              {bookingLoading
+                ? t('common.loading', { defaultValue: 'Saving...' })
+                : t('planner.planRoute')}
             </button>
+
+            {bookingError && (
+              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+                {bookingError}
+              </div>
+            )}
+            {bookingMessage && (
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+                {bookingMessage}
+              </div>
+            )}
           </div>
         </div>
       </div>

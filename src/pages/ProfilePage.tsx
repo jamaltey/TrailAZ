@@ -1,13 +1,18 @@
 import { Calendar, LogOut, Mail, Mountain, UserRound } from 'lucide-react';
 import React from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
+import type { Trip } from '../types/auth';
+import { supabase } from '../utils/supabase';
 
 interface ProfilePageProps {
   onNavigate: (page: string) => void;
 }
 
 export function ProfilePage({ onNavigate }: ProfilePageProps) {
-  const { user, profile, loading, signOut } = useAuth();
+  const { user, profile, loading, signOut, refreshProfile } = useAuth();
+  const [trips, setTrips] = React.useState<Trip[]>([]);
+  const [tripsLoading, setTripsLoading] = React.useState(false);
+  const [tripsError, setTripsError] = React.useState('');
 
   React.useEffect(() => {
     if (!loading && !user) {
@@ -15,20 +20,49 @@ export function ProfilePage({ onNavigate }: ProfilePageProps) {
     }
   }, [loading, user, onNavigate]);
 
-  const trips = [
-    {
-      id: 't1',
-      title: 'Shahdag Summit Trail',
-      date: '2025-02-12',
-      status: 'Completed',
-    },
-    {
-      id: 't2',
-      title: 'Tufandag Winter Route',
-      date: '2025-03-04',
-      status: 'Planned',
-    },
-  ];
+  React.useEffect(() => {
+    if (user && !profile) {
+      refreshProfile();
+    }
+  }, [user, profile, refreshProfile]);
+
+  const displayName =
+    profile?.full_name ||
+    (user?.user_metadata as any)?.full_name ||
+    profile?.email ||
+    user?.email ||
+    'Traveler';
+  const displayEmail = profile?.email || user?.email || 'Not set';
+  const displayBirthday = profile?.birthday || (user?.user_metadata as any)?.birthday || 'Not set';
+
+  React.useEffect(() => {
+    let cancelled = false;
+    const loadTrips = async () => {
+      if (!user) {
+        setTrips([]);
+        return;
+      }
+      setTripsLoading(true);
+      setTripsError('');
+      const { data, error } = await supabase
+        .from('trips')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+      if (cancelled) return;
+      if (error) {
+        setTripsError(error.message || 'Could not load trips.');
+        setTrips([]);
+      } else {
+        setTrips(data as Trip[]);
+      }
+      setTripsLoading(false);
+    };
+    loadTrips();
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
 
   return (
     <div className="bg-gray-50 min-h-screen py-24">
@@ -40,24 +74,22 @@ export function ProfilePage({ onNavigate }: ProfilePageProps) {
 
         <div className="grid gap-6 lg:grid-cols-[1fr,0.9fr]">
           <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-            <div className="mb-6 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-teal-50">
-                <UserRound className="h-6 w-6 text-teal-700" />
+              <div className="mb-6 flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-teal-50">
+                  <UserRound className="h-6 w-6 text-teal-700" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Signed in</p>
+                  <p className="text-lg font-semibold text-gray-900">{displayName}</p>
+                </div>
               </div>
-              <div>
-                <p className="text-sm text-gray-500">Signed in</p>
-                <p className="text-lg font-semibold text-gray-900">
-                  {profile?.full_name || profile?.email || 'Traveler'}
-                </p>
-              </div>
-            </div>
 
             <div className="space-y-4">
               <div className="flex items-center gap-3 rounded-2xl border border-gray-200 p-4">
                 <Mail className="h-5 w-5 text-teal-600" />
                 <div>
                   <p className="text-sm text-gray-500">Email</p>
-                  <p className="text-gray-900 font-semibold">{profile?.email || user?.email}</p>
+                  <p className="text-gray-900 font-semibold">{displayEmail}</p>
                 </div>
               </div>
 
@@ -65,7 +97,7 @@ export function ProfilePage({ onNavigate }: ProfilePageProps) {
                 <Calendar className="h-5 w-5 text-teal-600" />
                 <div>
                   <p className="text-sm text-gray-500">Birthday</p>
-                  <p className="text-gray-900 font-semibold">{profile?.birthday || 'Not set'}</p>
+                  <p className="text-gray-900 font-semibold">{displayBirthday}</p>
                 </div>
               </div>
 
@@ -93,6 +125,15 @@ export function ProfilePage({ onNavigate }: ProfilePageProps) {
               </button>
             </div>
 
+            {tripsLoading && <p className="text-sm text-gray-500">Loading trips...</p>}
+            {tripsError && (
+              <p className="text-sm text-red-600">Could not load trips: {tripsError}</p>
+            )}
+
+            {!tripsLoading && trips.length === 0 && !tripsError && (
+              <p className="text-sm text-gray-500">No trips yet. Plan your first adventure.</p>
+            )}
+
             <div className="space-y-3">
               {trips.map(trip => (
                 <div
@@ -101,16 +142,26 @@ export function ProfilePage({ onNavigate }: ProfilePageProps) {
                 >
                   <div>
                     <p className="font-semibold text-gray-900">{trip.title}</p>
-                    <p className="text-sm text-gray-500">{trip.date}</p>
+                    <p className="text-sm text-gray-500">
+                      {trip.mountain || 'Custom location'} • {trip.activity_type || 'Activity'}
+                    </p>
+                    <p className="text-xs text-gray-400">
+                      {trip.start_date || 'Start N/A'} → {trip.end_date || 'End N/A'}
+                    </p>
+                    {trip.total_cost !== undefined && trip.total_cost !== null && (
+                      <p className="text-xs text-gray-500">Total: ${trip.total_cost}</p>
+                    )}
                   </div>
                   <span
                     className={`rounded-full px-3 py-1 text-xs font-semibold ${
                       trip.status === 'Completed'
                         ? 'bg-emerald-50 text-emerald-700'
-                        : 'bg-amber-50 text-amber-700'
+                        : trip.status === 'In Progress'
+                          ? 'bg-blue-50 text-blue-700'
+                          : 'bg-amber-50 text-amber-700'
                     }`}
                   >
-                    {trip.status}
+                    {trip.status || 'Planned'}
                   </span>
                 </div>
               ))}

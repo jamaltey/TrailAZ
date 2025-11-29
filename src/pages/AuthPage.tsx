@@ -1,7 +1,7 @@
 import { CheckCircle2, Compass, Mountain, Shield, Sparkles } from 'lucide-react';
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface AuthPageProps {

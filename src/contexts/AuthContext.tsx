@@ -1,31 +1,7 @@
 import type { Session, User } from '@supabase/supabase-js';
 import React from 'react';
 import { supabase } from '../utils/supabase';
-
-type Profile = {
-  id: string;
-  email?: string;
-  full_name?: string;
-  birthday?: string | null;
-  avatar_url?: string | null;
-  preferences?: Record<string, unknown> | null;
-};
-
-type AuthContextValue = {
-  user: User | null;
-  session: Session | null;
-  profile: Profile | null;
-  loading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (params: {
-    email: string;
-    password: string;
-    fullName?: string;
-    birthday?: string;
-  }) => Promise<void>;
-  signOut: () => Promise<void>;
-  refreshProfile: () => Promise<void>;
-};
+import type { AuthContextValue, Profile } from '../types/auth';
 
 const STORAGE_KEY = 'trailaz-auth';
 
@@ -132,7 +108,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setLoading(false);
         return;
       }
-      const nextProfile = data ? { ...data } : null;
+      let nextProfile = data ? { ...data } : null;
+
+      if (!data) {
+        const newProfile = {
+          id: user.id,
+          email: user.email ?? undefined,
+          full_name: (user.user_metadata as any)?.full_name ?? undefined,
+          birthday: (user.user_metadata as any)?.birthday ?? null,
+        };
+        const { error: upsertError } = await supabase.from('profiles').upsert(newProfile);
+        if (upsertError) {
+          console.warn('Profile upsert error', upsertError);
+          nextProfile = newProfile;
+        } else {
+          nextProfile = newProfile;
+        }
+      }
       setProfile(nextProfile);
       profileRef.current = nextProfile;
       storeAuth(sessionRef.current, nextProfile);
@@ -179,7 +171,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(newUser);
 
       let nextProfile: Profile | null = null;
-      if (newUser) {
+      if (newUser && nextSession) {
         nextProfile = {
           id: newUser.id,
           email,
@@ -191,9 +183,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setProfile(nextProfile);
         profileRef.current = nextProfile;
         storeAuth(nextSession, nextProfile);
-      } else {
-        storeAuth(nextSession, null);
       }
+      storeAuth(nextSession, nextProfile);
       setLoading(false);
     },
     []
@@ -242,10 +233,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
-export function useAuth() {
-  const ctx = React.useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
-  return ctx;
 }
