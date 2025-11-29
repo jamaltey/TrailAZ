@@ -159,15 +159,11 @@ export function PlannerPage({ preselectedMountain }: PlannerPageProps) {
                   className="w-full"
                 />
                 <div className="mt-2 flex justify-between text-sm text-gray-600">
-                  <span>
-                    1 {t('planner.day')}
-                  </span>
-                <span className="text-teal-primary" style={{ fontWeight: 600 }}>
+                  <span>1 {t('planner.day')}</span>
+                  <span className="text-teal-primary" style={{ fontWeight: 600 }}>
                     {numDays} {numDays === 1 ? t('planner.day') : t('planner.days')}
                   </span>
-                  <span>
-                    7 {t('planner.days')}
-                  </span>
+                  <span>7 {t('planner.days')}</span>
                 </div>
               </div>
 
@@ -193,9 +189,7 @@ export function PlannerPage({ preselectedMountain }: PlannerPageProps) {
 
               {/* Activity Type */}
               <div>
-                <label className="mb-2 block text-gray-700">
-                  {t('planner.activityType')}
-                </label>
+                <label className="mb-2 block text-gray-700">{t('planner.activityType')}</label>
                 <select
                   value={activity}
                   onChange={e => setActivity(e.target.value)}
@@ -235,9 +229,7 @@ export function PlannerPage({ preselectedMountain }: PlannerPageProps) {
                     onChange={e => setAccessibilityMode(e.target.checked)}
                     className="text-teal-primary focus:ring-teal-primary h-5 w-5 rounded focus:ring-2"
                   />
-                  <span className="text-gray-700">
-                    {t('planner.accessibilityRoutes')}
-                  </span>
+                  <span className="text-gray-700">{t('planner.accessibilityRoutes')}</span>
                 </label>
               </div>
 
@@ -362,9 +354,7 @@ export function PlannerPage({ preselectedMountain }: PlannerPageProps) {
               <div className="flex gap-3">
                 <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
                 <div>
-                  <h4 className="mb-2 text-amber-900">
-                    {t('planner.safetyTips')}
-                  </h4>
+                  <h4 className="mb-2 text-amber-900">{t('planner.safetyTips')}</h4>
                   <ul className="space-y-1 text-sm text-amber-800">
                     <li>• Check weather forecasts before departure</li>
                     <li>• Inform someone of your itinerary</li>

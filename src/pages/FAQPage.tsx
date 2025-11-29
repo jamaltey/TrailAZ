@@ -1,6 +1,114 @@
-import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
+import { ChevronDown, ChevronUp, HelpCircle, MessageCircle, X } from 'lucide-react';
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { ask } from '../utils/chatbot';
+
+type ChatMessage = { role: 'user' | 'assistant'; text: string };
+
+const initialChatMessages: ChatMessage[] = [
+  {
+    role: 'assistant',
+    text: "Hi! I'm the TrailAZ FAQ assistant. Ask me about mountains, routes, safety, pricing, or trip planning.",
+  },
+];
+
+function ChatWidget({
+  open,
+  onClose,
+  messages,
+  onSend,
+  isSending,
+}: {
+  open: boolean;
+  onClose: () => void;
+  messages: ChatMessage[];
+  onSend: (text: string) => Promise<void>;
+  isSending: boolean;
+}) {
+  const [input, setInput] = React.useState('');
+  const messagesEndRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const text = input.trim();
+    if (!text || isSending) return;
+    setInput('');
+    await onSend(text);
+  };
+
+  return (
+    <div
+      className={`fixed bottom-6 right-6 z-50 w-full max-w-md transition-all duration-300 ${
+        open ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0'
+      }`}
+      aria-hidden={!open}
+    >
+      <div className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5">
+        <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+          <div className="flex items-center gap-2">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-teal-50">
+              <MessageCircle className="text-teal-primary h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-900">TrailAZ Live Chat</p>
+              <p className="text-xs text-gray-500">FAQ assistant</p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="rounded-full p-1 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700"
+            aria-label="Close chat"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        <div className="flex max-h-80 flex-col gap-3 overflow-y-auto px-4 py-3">
+          {messages.map((msg, idx) => (
+            <div
+              key={idx}
+              className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+            >
+              <div
+                className={`rounded-2xl px-3 py-2 text-sm leading-relaxed ${
+                  msg.role === 'user'
+                    ? 'bg-teal-primary text-white'
+                    : 'bg-gray-100 text-gray-800'
+                }`}
+              >
+                {msg.text}
+              </div>
+            </div>
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
+
+        <form onSubmit={handleSubmit} className="border-t border-gray-200 bg-gray-50 p-3">
+          <div className="flex items-center gap-2">
+            <input
+              className="focus:ring-teal-primary w-full rounded-xl border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:outline-none"
+              placeholder="Ask about mountains, routes, safety..."
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              disabled={isSending}
+            />
+            <button
+              type="submit"
+              disabled={isSending}
+              className="text-white rounded-xl bg-teal-primary px-4 py-2 text-sm font-semibold transition hover:bg-teal-600 disabled:opacity-60"
+            >
+              {isSending ? 'Sending...' : 'Send'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
 
 const defaultFaqs = [
   {
@@ -48,11 +156,37 @@ const defaultFaqs = [
 export function FAQPage() {
   const { t } = useLanguage();
   const [openIndex, setOpenIndex] = React.useState<number | null>(0);
+  const [isChatOpen, setIsChatOpen] = React.useState(false);
+  const [isSending, setIsSending] = React.useState(false);
+  const [chatMessages, setChatMessages] = React.useState<ChatMessage[]>(initialChatMessages);
 
   const faqs: { question: string; answer: string }[] = t.faq?.items ?? defaultFaqs;
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
+  };
+
+  const handleSendMessage = async (text: string) => {
+    setChatMessages(prev => [...prev, { role: 'user', text }]);
+    setIsSending(true);
+    try {
+      const reply = await ask(text);
+      setChatMessages(prev => [
+        ...prev,
+        { role: 'assistant', text: reply || 'Sorry, I could not generate a reply right now.' },
+      ]);
+    } catch (error) {
+      console.error('Chat error', error);
+      setChatMessages(prev => [
+        ...prev,
+        {
+          role: 'assistant',
+          text: 'Sorry, I had trouble answering that. Please try again.',
+        },
+      ]);
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -114,12 +248,22 @@ export function FAQPage() {
             <button className="text-teal-primary rounded-lg bg-white px-6 py-3 transition-colors hover:bg-gray-100">
               {t.footer?.contactUs || 'Contact Support'}
             </button>
-            <button className="rounded-lg border-2 border-white px-6 py-3 text-white transition-colors hover:bg-white/10">
+            <button
+              onClick={() => setIsChatOpen(true)}
+              className="rounded-lg border-2 border-white px-6 py-3 text-white transition-colors hover:bg-white/10"
+            >
               {t.faq?.liveChat || 'Live Chat'}
             </button>
           </div>
         </div>
       </div>
+      <ChatWidget
+        open={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        messages={chatMessages}
+        onSend={handleSendMessage}
+        isSending={isSending}
+      />
     </div>
   );
 }
