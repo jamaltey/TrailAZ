@@ -3,6 +3,7 @@ import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { useAuth } from '../hooks/useAuth';
 import { useLanguage } from '../contexts/LanguageContext';
+import { supabase } from '../utils/supabase';
 
 interface AuthPageProps {
   onNavigate: (page: string) => void;
@@ -25,6 +26,31 @@ export function AuthPage({ onNavigate }: AuthPageProps) {
   const [signupPassword, setSignupPassword] = React.useState('');
   const [signupBirthday, setSignupBirthday] = React.useState('');
 
+  const processPendingTrip = React.useCallback(async () => {
+    const pending = localStorage.getItem('pending-trip');
+    if (!pending) return false;
+    const payload = JSON.parse(pending);
+    const { data: sessionData } = await supabase.auth.getSession();
+    const currentUser = sessionData.session?.user;
+    if (!currentUser) return false;
+    const { data, error } = await supabase
+      .from('trips')
+      .insert({ ...payload, user_id: currentUser.id })
+      .select('id')
+      .single();
+    localStorage.removeItem('pending-trip');
+    if (error) {
+      setError(error.message || 'Could not finalize trip.');
+      return false;
+    }
+    if (data?.id) {
+      window.location.href = `/trips/${data.id}`;
+      return true;
+    }
+    window.location.href = '/profile';
+    return true;
+  }, []);
+
   React.useEffect(() => {
     setMessage('');
     setError('');
@@ -32,9 +58,11 @@ export function AuthPage({ onNavigate }: AuthPageProps) {
 
   React.useEffect(() => {
     if (user && !authLoading) {
-      onNavigate('home');
+      processPendingTrip().then(handled => {
+        if (!handled) onNavigate('home');
+      });
     }
-  }, [user, authLoading, onNavigate]);
+  }, [user, authLoading, onNavigate, processPendingTrip]);
 
   const perks = [
     t.auth?.perks?.safety || 'Safety alerts on the routes you follow',
@@ -83,6 +111,10 @@ export function AuthPage({ onNavigate }: AuthPageProps) {
     try {
       await signIn(loginEmail, loginPassword);
       setMessage(t.auth?.loginSuccess || 'Logged in!');
+      const handled = await processPendingTrip();
+      if (!handled) {
+        onNavigate('home');
+      }
     } catch (err: any) {
       setError(err?.message || 'Unable to log in. Please try again.');
     } finally {
@@ -102,10 +134,13 @@ export function AuthPage({ onNavigate }: AuthPageProps) {
         fullName: signupName,
         birthday: signupBirthday,
       });
-      setMessage(
-        t.auth?.signupSuccess ||
-          'Account created. Check your email for confirmation before signing in.'
-      );
+      const handled = await processPendingTrip();
+      if (!handled) {
+        setMessage(
+          t.auth?.signupSuccess ||
+            'Account created. Check your email for confirmation before signing in.'
+        );
+      }
     } catch (err: any) {
       setError(err?.message || 'Unable to sign up. Please try again.');
     } finally {

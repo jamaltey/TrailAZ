@@ -111,8 +111,29 @@ export function PlannerPage({ preselectedMountain }: PlannerPageProps) {
     setBookingMessage('');
     setBookingError('');
     if (!user) {
-      setBookingError('Please log in to save your trip.');
+      if (!selectedMountain || !startDate) {
+        setBookingError('Please select a mountain and start date.');
+        return;
+      }
+      const endDate = computeEndDate();
+      const totalCost = calculateTotalCost();
+      const addons = packages
+        .filter(pkg => selectedPackages.includes(pkg.id))
+        .map(pkg => ({ id: pkg.id, name: pkg.name, price: pkg.price }));
+      const pendingTrip = {
+        title: mountain?.name || 'Custom trip',
+        mountain: mountain?.name || null,
+        activity_type: activity,
+        start_date: startDate,
+        end_date: endDate,
+        addons,
+        total_cost: totalCost,
+        status: 'Planned',
+        notes: accessibilityMode ? 'Accessibility-friendly route requested' : null,
+      };
+      localStorage.setItem('pending-trip', JSON.stringify(pendingTrip));
       navigate('/auth');
+      setBookingMessage('Log in to finish booking your trip.');
       return;
     }
     if (!selectedMountain || !startDate) {
