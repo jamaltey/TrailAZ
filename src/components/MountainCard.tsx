@@ -1,5 +1,7 @@
 import { MapPin, Mountain, Tag, TrendingUp } from 'lucide-react';
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
+import { MountainDetailModal } from './MountainDetailModal';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
 export interface MountainData {
@@ -15,6 +17,8 @@ export interface MountainData {
   activities?: string[];
   tips?: string;
   facts?: string;
+  bestTime?: string;
+  whatToBring?: string[];
 }
 
 interface MountainCardProps {
@@ -23,7 +27,8 @@ interface MountainCardProps {
 }
 
 export function MountainCard({ mountain, onPlanClimb }: MountainCardProps) {
-  const [isHovered, setIsHovered] = React.useState(false);
+  const { t } = useLanguage();
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -60,17 +65,24 @@ export function MountainCard({ mountain, onPlanClimb }: MountainCardProps) {
   return (
     <div
       className="group magnifier-target cursor-pointer overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:shadow-2xl"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onClick={() => {
+        if (!isOpen) setIsOpen(true);
+      }}
+      role="button"
+      tabIndex={0}
+      onKeyDown={e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          if (!isOpen) setIsOpen(true);
+        }
+      }}
     >
       {/* Image */}
       <div className="relative h-48 overflow-hidden">
         <ImageWithFallback
           src={mountain.image}
           alt={mountain.name}
-          className={`h-full w-full object-cover transition-transform duration-300 ${
-            isHovered ? 'scale-110' : 'scale-100'
-          }`}
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div className="absolute top-3 right-3 flex gap-2">
           <span className={`rounded-full px-3 py-1 text-xs ${getActivityColor(mountain.activity)}`}>
@@ -106,41 +118,20 @@ export function MountainCard({ mountain, onPlanClimb }: MountainCardProps) {
             {mountain.season.join(', ')}
           </span>
         </div>
-
-        {/* Additional Activities - shown on hover */}
-        {mountain.activities && mountain.activities.length > 0 && isHovered && (
-          <div className="animate-fade-in-up mb-4 rounded-lg bg-gray-50 p-3">
-            <p className="mb-2 text-xs text-gray-500">Available Activities:</p>
-            <div className="flex flex-wrap gap-1">
-              {mountain.activities.slice(0, 4).map((act, i) => (
-                <span
-                  key={i}
-                  className="rounded-full border border-gray-200 bg-white px-2 py-1 text-xs text-gray-600"
-                >
-                  {act}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Tips - shown on hover */}
-        {mountain.tips && isHovered && (
-          <div className="animate-fade-in-up mb-4 rounded-lg bg-blue-50 p-3 text-xs text-blue-900">
-            💡 {mountain.tips}
-          </div>
-        )}
-
-        {/* Hover Action */}
-        <button
-          onClick={() => onPlanClimb(mountain)}
-          className={`w-full rounded-lg py-2 transition-all ${
-            isHovered ? 'bg-teal-primary text-white' : 'bg-gray-100 text-gray-700'
-          }`}
-        >
-          Plan This Climb
-        </button>
+        <div className="mt-4 rounded-lg bg-gray-100 px-3 py-2 text-center text-sm text-gray-700">
+          {t.common?.viewDetails || 'View Details'}
+        </div>
       </div>
+
+      <MountainDetailModal
+        mountain={mountain}
+        isOpen={isOpen}
+        onClose={() => {
+          setIsOpen(false);
+          console.log('close modal', isOpen);
+        }}
+        onPlanClimb={onPlanClimb}
+      />
     </div>
   );
 }
