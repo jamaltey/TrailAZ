@@ -177,8 +177,7 @@ export function AuthPage({ onNavigate }: AuthPageProps) {
                 {t.auth?.title || 'Log in or create your TrailAZ account'}
               </h1>
               <p className="max-w-2xl text-lg text-slate-100/85 sm:text-xl">
-                {t.auth?.subtitle ||
-                  'Save itineraries, sync accessibility settings, and pick up planning on any device.'}
+                {t.auth?.subtitleRequired || 'Create a free account to plan and save your trips.'}
               </p>
             </div>
 
@@ -186,31 +185,29 @@ export function AuthPage({ onNavigate }: AuthPageProps) {
               <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur">
                 <div className="mb-2 flex items-center gap-2 text-sm text-emerald-100">
                   <Sparkles className="h-4 w-4" />
-                  <span>{t.activities?.title || 'Activities'}</span>
+                  <span>{t.auth?.subtitleRequired || 'Plan and save every trip'}</span>
                 </div>
-                <p className="text-2xl font-semibold text-white">1,200+</p>
                 <p className="text-sm text-slate-200">
-                  {t.activities?.popularAcross || 'Curated adventures'}
+                  {t.auth?.perks?.offline || 'Saved itineraries and offline-ready notes'}
                 </p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur">
                 <div className="mb-2 flex items-center gap-2 text-sm text-emerald-100">
                   <Compass className="h-4 w-4" />
-                  <span>{t.hero?.trails || 'Trails'}</span>
+                  <span>{t.auth?.perks?.safety || 'Safety alerts'}</span>
                 </div>
-                <p className="text-2xl font-semibold text-white">40+</p>
                 <p className="text-sm text-slate-200">
-                  {t.features?.expertTrails?.title || 'Expert trail mapping'}
+                  {t.auth?.perks?.guides || 'Local guides and support tailored to you'}
                 </p>
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur">
                 <div className="mb-2 flex items-center gap-2 text-sm text-emerald-100">
                   <Mountain className="h-4 w-4" />
-                  <span>{t.hero?.peaks || 'Peaks'}</span>
+                  <span>{t.auth?.support || 'Keep routes synced'}</span>
                 </div>
-                <p className="text-2xl font-semibold text-white">24/7</p>
                 <p className="text-sm text-slate-200">
-                  {t.auth?.support || 'Safety desk monitoring weather and routes'}
+                  {t.auth?.highlightSubtitle ||
+                    'Keep your checklists, preferences, and routes in one place for every climb.'}
                 </p>
               </div>
             </div>

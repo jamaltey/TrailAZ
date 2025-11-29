@@ -249,6 +249,7 @@ export const translations: Record<Language, any> = {
       badge: 'Member Access',
       title: 'Log in or create your TrailAZ account',
       subtitle: 'Save itineraries, sync accessibility settings, and pick up planning on any device.',
+      subtitleRequired: 'Create a free account to plan and save your trips.',
       loginTab: 'Log in',
       signupTab: 'Sign up',
       emailLabel: 'Email address',
@@ -586,6 +587,7 @@ export const translations: Record<Language, any> = {
       title: 'Войдите или создайте аккаунт TrailAZ',
       subtitle:
         'Сохраняйте маршруты, синхронизируйте настройки доступности и продолжайте планирование на любом устройстве.',
+      subtitleRequired: 'Создайте аккаунт, чтобы планировать и сохранять поездки.',
       loginTab: 'Войти',
       signupTab: 'Зарегистрироваться',
       emailLabel: 'Электронная почта',
@@ -925,6 +927,7 @@ export const translations: Record<Language, any> = {
       title: 'TrailAZ hesabınıza daxil olun və ya yaradın',
       subtitle:
         'Marşrutları saxlayın, əlçatanlıq ayarlarınızı sinxronlaşdırın və planlamanı istənilən cihazda davam etdirin.',
+      subtitleRequired: 'Səfərləri planlamaq və saxlamaq üçün hesab yaradın.',
       loginTab: 'Daxil ol',
       signupTab: 'Qeydiyyat',
       emailLabel: 'E-poçt ünvanı',
