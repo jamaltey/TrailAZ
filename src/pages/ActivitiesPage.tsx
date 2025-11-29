@@ -17,7 +17,7 @@ export function ActivitiesPage({ onNavigate }: ActivitiesPageProps) {
     {
       id: 'hiking',
       icon: Compass,
-      color: 'from-green-500 to-green-500',
+      color: 'from-green-500 to-emerald-600',
       bgColor: 'bg-green-50',
       iconBg: 'bg-green-100',
       iconColor: 'text-green-600',
@@ -26,7 +26,7 @@ export function ActivitiesPage({ onNavigate }: ActivitiesPageProps) {
     {
       id: 'climbing',
       icon: Mountain,
-      color: 'from-purple-500 to-purple-500',
+      color: 'from-purple-500 to-indigo-600',
       bgColor: 'bg-purple-50',
       iconBg: 'bg-purple-100',
       iconColor: 'text-purple-600',
@@ -35,7 +35,7 @@ export function ActivitiesPage({ onNavigate }: ActivitiesPageProps) {
     {
       id: 'skiing',
       icon: Snowflake,
-      color: 'from-blue-500 to-blue-500',
+      color: 'from-blue-500 to-blue-600',
       bgColor: 'bg-blue-50',
       iconBg: 'bg-blue-100',
       iconColor: 'text-blue-600',
@@ -44,7 +44,7 @@ export function ActivitiesPage({ onNavigate }: ActivitiesPageProps) {
     {
       id: 'camping',
       icon: Tent,
-      color: 'from-amber-500 to-amber-500',
+      color: 'from-amber-500 to-orange-600',
       bgColor: 'bg-amber-50',
       iconBg: 'bg-amber-100',
       iconColor: 'text-amber-600',
@@ -53,7 +53,7 @@ export function ActivitiesPage({ onNavigate }: ActivitiesPageProps) {
     {
       id: 'photography',
       icon: Camera,
-      color: 'from-pink-500 to-pink-500',
+      color: 'from-pink-500 to-red-600',
       bgColor: 'bg-pink-50',
       iconBg: 'bg-pink-100',
       iconColor: 'text-pink-600',
