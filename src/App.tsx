@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AccessibilityPanel } from './components/AccessibilityPanel';
+import { ChatAssistant } from './components/ChatAssistant';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -107,6 +108,8 @@ function AppContent() {
         highContrast={highContrast}
         dyslexiaFont={dyslexiaFont}
       />
+
+      <ChatAssistant />
     </div>
   );
 }
