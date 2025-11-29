@@ -381,7 +381,7 @@ export function PlannerPage({ preselectedMountain }: PlannerPageProps) {
             {/* Action Button */}
             <button className="bg-teal-primary hover:bg-teal-light flex w-full items-center justify-center gap-2 rounded-xl py-4 text-white shadow-lg transition-colors">
               <CheckCircle className="h-5 w-5" />
-              {t('planner.generateRoute')}
+              {t('planner.planRoute')}
             </button>
           </div>
         </div>
