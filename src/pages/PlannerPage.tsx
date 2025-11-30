@@ -83,6 +83,10 @@ export function PlannerPage({ preselectedMountain }: PlannerPageProps) {
 
   const itinerary = generateItinerary();
   const mountain = getMountainData();
+  const mapQuery = mountain
+    ? encodeURIComponent(`${mountain.name} ${mountain.region || ''}`)
+    : 'Azerbaijan mountains';
+  const mapUrl = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
 
   const computeEndDate = () => {
     if (!startDate) return null;
@@ -377,6 +381,16 @@ export function PlannerPage({ preselectedMountain }: PlannerPageProps) {
                       {mountain.difficulty}
                     </span>
                   </div>
+                </div>
+                <div className="h-64">
+                  <iframe
+                    title={`${mountain.name} map`}
+                    src={mapUrl}
+                    className="h-full w-full border-0"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    allowFullScreen
+                  />
                 </div>
               </div>
             )}
