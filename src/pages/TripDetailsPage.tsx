@@ -2,8 +2,8 @@ import { ArrowLeft, Calendar, MapPin, Receipt, Tag, Wallet } from 'lucide-react'
 import React from 'react';
 import QRCode from 'react-qr-code';
 import { useParams } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useAuth } from '../hooks/useAuth';
 import type { Trip } from '../types/auth';
 import { supabase } from '../utils/supabase';
 
@@ -94,6 +94,8 @@ export function TripDetailsPage({ onNavigate }: TripDetailsPageProps) {
 
   const addons = (trip.addons as any[]) || [];
   const qrValue = `${window.location.origin}/trips/${trip.id}`;
+  const mapQuery = encodeURIComponent(trip.mountain || trip.title || 'Azerbaijan mountains');
+  const mapUrl = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
 
   return (
     <div className="min-h-screen bg-gray-50 py-24">
@@ -127,9 +129,7 @@ export function TripDetailsPage({ onNavigate }: TripDetailsPageProps) {
               <div className="flex items-center gap-3 rounded-2xl border border-gray-200 p-4">
                 <MapPin className="h-5 w-5 text-teal-700" />
                 <div>
-                  <p className="text-sm text-gray-500">
-                    {t.tripDetails?.mountain || 'Mountain'}
-                  </p>
+                  <p className="text-sm text-gray-500">{t.tripDetails?.mountain || 'Mountain'}</p>
                   <p className="text-gray-900 font-semibold">
                     {trip.mountain || t.profilePage?.customLocation || 'Custom location'}
                   </p>
@@ -148,7 +148,7 @@ export function TripDetailsPage({ onNavigate }: TripDetailsPageProps) {
               </div>
             </div>
 
-            <div className="space-y-3 rounded-2xl border border-gray-200 p-4">
+            <div className="space-y-3 h-full rounded-2xl border border-gray-200 p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Wallet className="h-5 w-5 text-teal-700" />
@@ -190,6 +190,26 @@ export function TripDetailsPage({ onNavigate }: TripDetailsPageProps) {
               </div>
               <p className="break-all text-xs text-gray-500 text-center">{qrValue}</p>
             </div>
+          </div>
+        </div>
+
+        {/* Map */}
+        <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+          <div className="border-b border-gray-100 px-6 py-4">
+            <p className="text-sm font-semibold text-gray-900">{t.tripDetails?.map || 'Map'}</p>
+            <p className="text-xs text-gray-500">
+              {trip.mountain || t.profilePage?.customLocation || 'Custom location'}
+            </p>
+          </div>
+          <div className="h-72 w-full">
+            <iframe
+              title="Trip location map"
+              src={mapUrl}
+              className="h-full w-full border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
           </div>
         </div>
       </div>

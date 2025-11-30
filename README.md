@@ -30,6 +30,7 @@ Accessible mountain exploration UI built with Vite + React, Tailwind (v4 via `@t
   - `profiles` (id uuid, full_name, avatar_url, preferences jsonb, created_at, birthday) linked to `auth.users.id`.
   - `trips` (id uuid, user_id uuid → auth.users.id, title, mountain, start_date, end_date, status, notes, created_at, updated_at, activity_type, addons jsonb, total_cost numeric).
 - Update the client URL/key as needed for your project.
+- Planner and trip details embed a simple Google Maps iframe for the selected mountain/trip location.
 
 ## Translations
 - Resources live in `src/translations.ts`.

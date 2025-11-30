@@ -276,6 +276,7 @@ export const translations: Record<Language, any> = {
         guides: 'Local guides and language support tailored to you',
       },
       support: 'Safety desk monitoring weather and routes',
+      confirmationEmail: 'Confirmation email sent. Please verify your email, then log in to continue.',
     },
     profilePage: {
       title: 'Profile',
@@ -615,6 +616,8 @@ export const translations: Record<Language, any> = {
         guides: 'Локальные гиды и языковая поддержка под вас',
       },
       support: 'Служба безопасности следит за погодой и маршрутами',
+      confirmationEmail:
+        'Подтверждение отправлено. Проверьте почту и войдите после подтверждения.',
     },
     profilePage: {
       title: 'Профиль',
@@ -955,6 +958,7 @@ export const translations: Record<Language, any> = {
         guides: 'Yerel bələdçilər və dil dəstəyi sizin üçün',
       },
       support: 'Təhlükəsizlik komandası hava və marşrutları izləyir',
+      confirmationEmail: 'Təsdiq məktubu göndərildi. Zəhmət olmasa poçtu yoxlayın və sonra daxil olun.',
     },
     profilePage: {
       title: 'Profil',

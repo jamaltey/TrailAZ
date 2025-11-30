@@ -136,10 +136,7 @@ export function AuthPage({ onNavigate }: AuthPageProps) {
       });
       const handled = await processPendingTrip();
       if (!handled) {
-        setMessage(
-          t.auth?.signupSuccess ||
-            'Confirmation email sent. Please verify your email, then log in to continue.'
-        );
+        setMessage(t.auth?.confirmationEmail || 'Confirmation email sent. Please verify your email, then log in to continue.');
       }
     } catch (err: any) {
       setError(err?.message || 'Unable to sign up. Please try again.');
