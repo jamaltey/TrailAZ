@@ -37,4 +37,4 @@ Accessible mountain exploration UI built with Vite + React, Tailwind (v4 via `@t
 
 ## UI Notes
 - Mountain cards open a Headless UI dialog (`MountainDetailModal`) showing details and a “Plan This Climb” action.
-- Global styling lives in `src/index.css` and `tailwind.config.cjs`.
+- Global styling lives in `src/index.css`.
