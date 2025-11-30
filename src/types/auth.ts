@@ -33,7 +33,7 @@ export type AuthContextValue = {
     password: string;
     fullName?: string;
     birthday?: string;
-  }) => Promise<void>;
+  }) => Promise<{ user: User | null }>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 };

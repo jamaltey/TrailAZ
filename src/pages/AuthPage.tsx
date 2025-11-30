@@ -138,7 +138,7 @@ export function AuthPage({ onNavigate }: AuthPageProps) {
       if (!handled) {
         setMessage(
           t.auth?.signupSuccess ||
-            'Account created. Check your email for confirmation before signing in.'
+            'Confirmation email sent. Please verify your email, then log in to continue.'
         );
       }
     } catch (err: any) {

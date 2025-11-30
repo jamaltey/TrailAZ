@@ -1,7 +1,7 @@
 import type { Session, User } from '@supabase/supabase-js';
 import React from 'react';
-import { supabase } from '../utils/supabase';
 import type { AuthContextValue, Profile } from '../types/auth';
+import { supabase } from '../utils/supabase';
 
 const STORAGE_KEY = 'trailaz-auth';
 
@@ -158,34 +158,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       birthday?: string;
     }) => {
       const redirectTo = `${window.location.origin}/auth`;
+      console.log(redirectTo);
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: { data: { full_name: fullName, birthday }, emailRedirectTo: redirectTo },
       });
       if (error) throw error;
-      const newUser = data.user ?? null;
-      const nextSession = data.session ?? null;
-      sessionRef.current = nextSession;
-      setSession(nextSession);
-      setUser(newUser);
 
-      let nextProfile: Profile | null = null;
-      if (newUser && nextSession) {
-        nextProfile = {
-          id: newUser.id,
-          email,
-          full_name: fullName,
-          birthday: birthday ?? null,
-        };
-        const { error: profileError } = await supabase.from('profiles').upsert(nextProfile);
-        if (profileError) console.warn('Profile upsert error', profileError);
-        setProfile(nextProfile);
-        profileRef.current = nextProfile;
-        storeAuth(nextSession, nextProfile);
-      }
-      storeAuth(nextSession, nextProfile);
-      setLoading(false);
+      // Do not auto-login; just clear local auth state and rely on email confirmation.
+      sessionRef.current = null;
+      setSession(null);
+      setUser(null);
+      setProfile(null);
+      profileRef.current = null;
+      storeAuth(null, null);
+
+      return { user: data.user };
     },
     []
   );
