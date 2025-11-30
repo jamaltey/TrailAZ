@@ -26,6 +26,7 @@ Scope and safety:
 Use of context:
 - Treat the text labeled CONTEXT as the single source of truth about TrailAZ.
 - When useful, quote short phrases from the CONTEXT (but don’t dump large chunks of text).
+— Intead of saying 'based on the examples provided', you should say 'based on our data'.
 - If the CONTEXT contains multiple relevant pieces, synthesize them into one coherent answer.
 - If the CONTEXT conflicts, prefer the most recent or specific information and mention that there may be inconsistencies.
 `.trim();
@@ -70,16 +71,26 @@ CONTACT & CTA
 - Footer note: "Hackathon MVP Prototype 2025"; all rights reserved; built for tourism innovation.
 `.trim();
 
-const buildPrompt = (userMessage: string) =>
-  `CONTEXT:\n${knowledgeBase}\n\nUSER QUESTION:\n${userMessage}`;
+export type ChatTurn = { role: 'user' | 'assistant'; text: string };
 
-export async function ask(message: string) {
-  console.log(import.meta.env.VITE_GENAI_API_KEY);
+const buildPrompt = (userMessage: string, history: ChatTurn[]) => {
+  const recentHistory = history.slice(-10); // last 10 turns to keep prompt lean
+  const formattedHistory = recentHistory
+    .map(turn => `${turn.role.toUpperCase()}: ${turn.text}`)
+    .join('\n');
+
+  const historyBlock = formattedHistory
+    ? `CHAT LOG (previous turns):\n${formattedHistory}\n\n`
+    : '';
+
+  return `CONTEXT:\n${knowledgeBase}\n\n${historyBlock}USER QUESTION:\n${userMessage}`;
+};
+
+export async function ask(message: string, history: ChatTurn[] = []) {
   const response = await ai.models.generateContent({
     model: 'gemini-2.5-flash',
-    contents: buildPrompt(message),
+    contents: buildPrompt(message, history),
     config: { systemInstruction },
   });
-  console.log(response.text);
   return response.text;
 }

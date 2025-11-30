@@ -151,10 +151,12 @@ export function ChatAssistant() {
   }, [chatStrings.greeting]);
 
   const handleSendMessage = async (text: string) => {
-    setChatMessages(prev => [...prev, { role: 'user', text }]);
+    const userTurn = { role: 'user' as const, text };
+    const historyForModel = [...chatMessages, userTurn];
+    setChatMessages(historyForModel);
     setIsSending(true);
     try {
-      const reply = await ask(text);
+      const reply = await ask(text, historyForModel);
       setChatMessages(prev => [
         ...prev,
         { role: 'assistant', text: reply || chatStrings.fallback },
